@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
+@theme {
+  /* ── Backgrounds ──────────────────────────────────────────── */
+  --color-ivory: #F7F4EE;
+  --color-ivory-dark: #EDE8DF;
+
+  /* ── Primary — Enterprise Plum ───────────────────────────── */
+  --color-forest: #5B4B73;
+  --color-forest-light: #7060A0;
+  --color-forest-dark: #4A3A60;
+
+  /* ── Secondary — Muted Purple ────────────────────────────── */
+  --color-sage: #8B7AA8;
+  --color-sage-light: #EAE6F8;
+
+  /* ── Soft Accent — Dusty Lavender ────────────────────────── */
+  --color-lavender: #DCD5EA;
+  --color-lavender-light: #EDEAF4;
+  --color-lavender-deep: #C5BDD8;
+
+  /* ── Warning / Status — Muted Gold ──────────────────────── */
+  --color-gold: #C8A97E;
+  --color-gold-light: #E8D5B0;
+
+  /* ── Neutrals ─────────────────────────────────────────────── */
+  --color-stone: #9CA3AF;
+  --color-stone-light: #E8E1D8;
+
+  /* ── Text ─────────────────────────────────────────────────── */
+  --color-charcoal: #1F2937;
+  --color-charcoal-soft: #6B7280;
+
+  /* ── Card surfaces ────────────────────────────────────────── */
+  --color-warm-white: #FFFFFF;
+  --color-blush: #EEE6DC;
+  --color-mist: #F5F3EF;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #F7F4EE;
+  --foreground: #1F2937;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .shadow-card {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 2px 10px rgba(15, 23, 42, 0.05);
+  }
+  .shadow-card-md {
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.07);
+  }
+  .shadow-card-lg {
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 16px 48px rgba(15, 23, 42, 0.09);
+  }
+  .shadow-btn {
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.08);
+  }
+  /* Plum-tinted shadow for accent cards */
+  .shadow-forest {
+    box-shadow: 0 2px 8px rgba(91, 75, 115, 0.20), 0 8px 28px rgba(91, 75, 115, 0.14);
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CDC8DC transparent;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #CDC8DC;
+  border-radius: 4px;
 }
