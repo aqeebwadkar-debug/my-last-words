@@ -173,7 +173,7 @@ export function LoginForm({ roleBadge, email, ctaLabel, redirectTo }: LoginFormP
             {/* Mobile sign-in */}
             <button
               type="button"
-              onClick={() => showToast('SSO disabled in demo mode')}
+          
               className="w-full mt-4 flex items-center justify-center gap-2 text-xs text-charcoal-soft hover:text-charcoal transition-colors duration-200 py-2"
             >
               <Smartphone className="w-3.5 h-3.5" strokeWidth={1.75} />
