@@ -29,6 +29,7 @@ import {
   Pencil,
   Eye,
   User,
+  Menu,
 } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -1379,72 +1380,99 @@ const ALERTS: Partial<Record<Section, number>> = {
 function Sidebar({
   active,
   onChange,
+  mobileOpen,
+  onMobileClose,
 }: {
   active: Section
   onChange: (s: Section) => void
+  mobileOpen: boolean
+  onMobileClose: () => void
 }) {
+  const handleNav = (key: Section) => {
+    onChange(key)
+    onMobileClose()
+  }
+
   return (
-    <nav className="w-60 flex-shrink-0 bg-forest flex flex-col h-full">
-      {/* Logo */}
-      <div className="px-5 py-6 border-b border-white/10">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center flex-shrink-0">
-            <AppIcon className="w-4 h-4 text-white" />
+    <>
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-charcoal/40 z-40 md:hidden"
+          onClick={onMobileClose}
+        />
+      )}
+
+      {/* Sidebar panel */}
+      <nav
+        className={`
+          fixed inset-y-0 left-0 z-50 w-60 bg-forest flex flex-col
+          transition-transform duration-300 ease-in-out
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
+          md:relative md:inset-auto md:translate-x-0 md:flex-shrink-0 md:h-full
+        `}
+      >
+        {/* Logo */}
+        <div className="px-5 py-6 border-b border-white/10">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center flex-shrink-0">
+              <AppIcon className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-white tracking-tight">My Last Words</span>
           </div>
-          <span className="text-sm font-semibold text-white tracking-tight">My Last Words</span>
+          <p className="text-[10px] text-white/40 mt-2 font-semibold uppercase tracking-wider">
+            Admin Console
+          </p>
         </div>
-        <p className="text-[10px] text-white/40 mt-2 font-semibold uppercase tracking-wider">
-          Admin Console
-        </p>
-      </div>
 
-      {/* Nav items */}
-      <div className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {NAV.map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            onClick={() => onChange(key)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 ${
-              active === key
-                ? 'bg-white/15 text-white'
-                : 'text-white/55 hover:bg-white/8 hover:text-white/85'
-            }`}
+        {/* Nav items */}
+        <div className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          {NAV.map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => handleNav(key)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 ${
+                active === key
+                  ? 'bg-white/15 text-white'
+                  : 'text-white/55 hover:bg-white/8 hover:text-white/85'
+              }`}
+            >
+              <Icon
+                className={`w-4 h-4 flex-shrink-0 ${active === key ? 'text-white' : 'text-white/55'}`}
+                strokeWidth={active === key ? 2 : 1.75}
+              />
+              <span className="text-sm font-medium flex-1">{label}</span>
+              {ALERTS[key] && (
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
+                    active === key
+                      ? 'bg-white/20 text-white'
+                      : 'bg-gold/25 text-gold'
+                  }`}
+                >
+                  {ALERTS[key]}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Bottom */}
+        <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
+          <a
+            href="/"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/55 hover:bg-white/8 hover:text-white/85 transition-all duration-150"
           >
-            <Icon
-              className={`w-4 h-4 flex-shrink-0 ${active === key ? 'text-white' : 'text-white/55'}`}
-              strokeWidth={active === key ? 2 : 1.75}
-            />
-            <span className="text-sm font-medium flex-1">{label}</span>
-            {ALERTS[key] && (
-              <span
-                className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
-                  active === key
-                    ? 'bg-white/20 text-white'
-                    : 'bg-gold/25 text-gold'
-                }`}
-              >
-                {ALERTS[key]}
-              </span>
-            )}
+            <ChevronLeft className="w-4 h-4 flex-shrink-0" strokeWidth={1.75} />
+            <span className="text-sm font-medium">Back to Site</span>
+          </a>
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/55 hover:bg-white/8 hover:text-white/85 transition-all duration-150">
+            <LogOut className="w-4 h-4 flex-shrink-0" strokeWidth={1.75} />
+            <span className="text-sm font-medium">Sign Out</span>
           </button>
-        ))}
-      </div>
-
-      {/* Bottom */}
-      <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
-        <a
-          href="/"
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/55 hover:bg-white/8 hover:text-white/85 transition-all duration-150"
-        >
-          <ChevronLeft className="w-4 h-4 flex-shrink-0" strokeWidth={1.75} />
-          <span className="text-sm font-medium">Back to Site</span>
-        </a>
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/55 hover:bg-white/8 hover:text-white/85 transition-all duration-150">
-          <LogOut className="w-4 h-4 flex-shrink-0" strokeWidth={1.75} />
-          <span className="text-sm font-medium">Sign Out</span>
-        </button>
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </>
   )
 }
 
@@ -1462,16 +1490,29 @@ const SECTION_COMPONENTS: Record<Section, React.ReactNode> = {
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<Section>('dashboard')
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div className="flex h-screen bg-ivory overflow-hidden">
-      <Sidebar active={activeSection} onChange={setActiveSection} />
+      <Sidebar
+        active={activeSection}
+        onChange={setActiveSection}
+        mobileOpen={mobileOpen}
+        onMobileClose={() => setMobileOpen(false)}
+      />
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 min-w-0 overflow-y-auto">
         {/* Top bar */}
-        <div className="sticky top-0 z-10 bg-warm-white/95 backdrop-blur-sm border-b border-stone-light px-8 py-3.5 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-warm-white/95 backdrop-blur-sm border-b border-stone-light px-4 md:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
+            <button
+              className="md:hidden w-8 h-8 bg-mist rounded-xl flex items-center justify-center hover:bg-ivory-dark transition-colors mr-1"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu className="w-4 h-4 text-charcoal-soft" strokeWidth={1.75} />
+            </button>
             {NAV.find((n) => n.key === activeSection) && (() => {
               const item = NAV.find((n) => n.key === activeSection)!
               const Icon = item.icon
