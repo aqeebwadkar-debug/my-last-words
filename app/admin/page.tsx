@@ -387,7 +387,7 @@ function UserDrawer({ user, onClose }: { user: UserRecord; onClose: () => void }
   return (
     <>
       <div className="fixed inset-0 bg-charcoal/20 z-40" onClick={onClose} />
-      <div className="fixed right-0 top-0 h-full w-[420px] bg-warm-white border-l border-stone-light z-50 overflow-y-auto shadow-card-lg">
+      <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-warm-white border-l border-stone-light z-50 overflow-y-auto shadow-card-lg">
         <div className="sticky top-0 bg-warm-white/95 backdrop-blur-sm border-b border-stone-light px-6 py-4 flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-charcoal">{user.name}</p>
@@ -500,14 +500,14 @@ function UserDrawer({ user, onClose }: { user: UserRecord; onClose: () => void }
 
 function DashboardSection() {
   return (
-    <div className="p-8 space-y-7">
+    <div className="p-4 md:p-8 space-y-7">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Overview</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">Platform health as of June 8, 2025</p>
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <StatCard label="Total Users" value="2,847" sub="+34 this week" icon={Users} />
         <StatCard label="Active Users" value="1,893" sub="66.5% of total" icon={Activity} accent />
         <StatCard label="Pending Verifications" value="23" sub="4 require attention" icon={ShieldCheck} />
@@ -594,7 +594,7 @@ function UsersSection() {
   )
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 md:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold text-charcoal">User Management</h2>
@@ -692,7 +692,7 @@ function UsersSection() {
 
 function VerificationSection() {
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 md:p-8 space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Verification Queue</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">
@@ -839,7 +839,7 @@ function DeliveriesSection() {
   ]
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 md:p-8 space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Delivery Management</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">
@@ -847,7 +847,7 @@ function DeliveriesSection() {
         </p>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {tabs.map((t) => (
           <button
             key={t.key}
@@ -864,7 +864,8 @@ function DeliveriesSection() {
       </div>
 
       <div className="bg-warm-white border border-stone-light rounded-2xl overflow-hidden shadow-card">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[560px]">
           <thead>
             <tr className="border-b border-stone-light bg-ivory/60">
               {['Sender', 'Recipient', 'Type', 'Delivery Trigger', 'Status'].map((h) => (
@@ -891,6 +892,7 @@ function DeliveriesSection() {
             ))}
           </tbody>
         </table>
+        </div>
         {filtered.length === 0 && (
           <div className="py-12 text-center">
             <p className="text-sm text-charcoal-soft">No deliveries in this category.</p>
@@ -907,7 +909,7 @@ function ModerationSection() {
   const [resolved, setResolved] = useState<number[]>([])
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 md:p-8 space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Moderation</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">
@@ -1012,13 +1014,13 @@ function AnalyticsSection() {
   const peak = Math.max(...MONTHLY_USERS)
 
   return (
-    <div className="p-8 space-y-7">
+    <div className="p-4 md:p-8 space-y-7">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Analytics</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">Platform overview · Last 12 months</p>
       </div>
 
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {[
           { label: 'Total Messages', value: '3,847', icon: Bell },
           { label: 'Deliveries Sent', value: '142', icon: Send },
@@ -1152,7 +1154,7 @@ function SettingsSection() {
   ]
 
   return (
-    <div className="p-8 space-y-7">
+    <div className="p-4 md:p-8 space-y-7">
       <div>
         <h2 className="text-xl font-semibold text-charcoal">Settings</h2>
         <p className="text-sm text-charcoal-soft mt-0.5">Platform configuration overview</p>
@@ -1329,18 +1331,18 @@ function SettingsSection() {
         </p>
         <div className="bg-warm-white border border-stone-light rounded-2xl overflow-hidden divide-y divide-stone-light/60 shadow-card">
           {templates.map((t) => (
-            <div key={t.name} className="flex items-center justify-between px-5 py-4 hover:bg-ivory/40 transition-colors">
+            <div key={t.name} className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-5 py-4 gap-3 hover:bg-ivory/40 transition-colors">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-8 h-8 bg-mist rounded-xl flex items-center justify-center flex-shrink-0 border border-stone-light">
                   <Mail className="w-3.5 h-3.5 text-charcoal-soft" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-charcoal">{t.name}</p>
-                  <p className="text-xs text-stone mt-0.5 truncate">{t.desc}</p>
+                  <p className="text-xs text-stone mt-0.5">{t.desc}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                <span className="text-[10px] text-stone mr-1 whitespace-nowrap hidden lg:block">
+              <div className="flex items-center gap-2 sm:flex-shrink-0">
+                <span className="text-[10px] text-stone whitespace-nowrap hidden lg:block">
                   Updated {t.lastUpdated}
                 </span>
                 <button className="flex items-center gap-1.5 text-xs font-semibold text-charcoal-soft bg-mist border border-stone-light px-2.5 py-1.5 rounded-lg hover:bg-ivory-dark transition-colors">
@@ -1493,7 +1495,7 @@ export default function AdminPage() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-ivory overflow-hidden">
+    <div className="flex h-dvh bg-ivory overflow-hidden">
       <Sidebar
         active={activeSection}
         onChange={setActiveSection}
@@ -1502,10 +1504,10 @@ export default function AdminPage() {
       />
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 overflow-y-auto">
+      <main className="flex-1 min-w-0 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <div className="sticky top-0 z-10 bg-warm-white/95 backdrop-blur-sm border-b border-stone-light px-4 md:px-8 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+        <div className="flex-shrink-0 sticky top-0 z-30 bg-warm-white/95 backdrop-blur-sm border-b border-stone-light px-4 md:px-8 py-3.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <button
               className="md:hidden w-8 h-8 bg-mist rounded-xl flex items-center justify-center hover:bg-ivory-dark transition-colors mr-1"
               onClick={() => setMobileOpen(true)}
@@ -1518,38 +1520,40 @@ export default function AdminPage() {
               const Icon = item.icon
               return (
                 <>
-                  <Icon className="w-4 h-4 text-charcoal-soft" strokeWidth={1.75} />
-                  <span className="text-sm font-semibold text-charcoal">{item.label}</span>
+                  <Icon className="w-4 h-4 text-charcoal-soft flex-shrink-0" strokeWidth={1.75} />
+                  <span className="text-sm font-semibold text-charcoal truncate">{item.label}</span>
                 </>
               )
             })()}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="hidden sm:flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-sage rounded-full" />
-              <span className="text-xs text-charcoal-soft">All systems operational</span>
+              <span className="text-xs text-charcoal-soft whitespace-nowrap">All systems operational</span>
             </div>
-            <button className="relative w-8 h-8 bg-mist rounded-xl flex items-center justify-center hover:bg-ivory-dark transition-colors">
+            <button className="relative w-8 h-8 bg-mist rounded-xl flex items-center justify-center hover:bg-ivory-dark transition-colors flex-shrink-0">
               <Bell className="w-4 h-4 text-charcoal-soft" strokeWidth={1.75} />
               <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-forest rounded-full" />
             </button>
-            <div className="w-8 h-8 bg-forest rounded-xl flex items-center justify-center shadow-card">
+            <div className="w-8 h-8 bg-forest rounded-xl flex items-center justify-center shadow-card flex-shrink-0">
               <span className="text-white text-xs font-bold">A</span>
             </div>
           </div>
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-          >
-            {SECTION_COMPONENTS[activeSection]}
-          </motion.div>
-        </AnimatePresence>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSection}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
+            >
+              {SECTION_COMPONENTS[activeSection]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </main>
     </div>
   )
